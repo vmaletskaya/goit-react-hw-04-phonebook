@@ -4,8 +4,8 @@ import ContactCard from '../ContactCard/ContactCard';
 const shortid = require('shortid');
 
 
-export default function ContactList( { list, removeCard }) {
-  
+export default function ContactList(props) {
+  const { list, removeCard } = props;
   return (
     <ul className={css.contactList}>
       {list.map(item => {

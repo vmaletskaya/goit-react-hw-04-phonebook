@@ -1,33 +1,42 @@
 import PropTypes from 'prop-types';
 import css from './ContactForm.module.css';
-import { Component } from 'react';
+import {useState} from 'react';
 
 
 
-export default class ContactForm extends Component {
-  state = {
-    name: '',
-    number: '',
+export default function ContactForm (props) {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+ 
+
+ const onInputValue = (e) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+      case 'number':
+        setNumber(value);
+        break;
+      default:
+        break;
+    }
   };
-
-  onInputValue = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-  handlerOnSubmit = e => {
+ const handlerOnSubmit = e => {
     e.preventDefault();
-    this.props.onSubmit(this.state);
-    this.reset();
+    props.onSubmit({ name, number });
+    reset();
   };
 
-  reset = () => {
-    this.setState({ name: '', number: '' });
+  const reset = () => {
+    setName('');
+    setNumber('');
   };
 
-  render() {
 
-    const { name, number } = this.state;
+
     return (
-      <form action="" className={css.form} onSubmit={this.handlerOnSubmit}>
+      <form action="" className={css.form} onSubmit={handlerOnSubmit}>
         <label>
           Name
           <input
@@ -37,7 +46,7 @@ export default class ContactForm extends Component {
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             required
             value={name}
-            onChange={this.onInputValue}
+            onChange={onInputValue}
           />
         </label>
         <label>
@@ -49,7 +58,7 @@ export default class ContactForm extends Component {
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
             value={number}
-            onChange={this.onInputValue}
+            onChange={onInputValue}
           />
         </label>
         <button type="submit" className={css.addContact}>
@@ -57,7 +66,7 @@ export default class ContactForm extends Component {
         </button>
       </form>
     );
-  }
+  
 }
 
 ContactForm.propTypes = {
